@@ -1,0 +1,47 @@
+---
+title: "Leaflet - Nissa Febriani"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Preparing libraries and setting Working directory
+```{r}
+library(dplyr)
+library(leaflet)
+library(tidyverse)
+
+#set working directory
+setwd("C:/Users/Dell/Downloads/WDR")
+getwd
+
+```
+
+Reading the Data
+```{r}
+(load(file = "wealthiest_zips.Rda"))
+head(wealthy_zips)
+```
+Wealthies_zip is data from regions in America whose citizens have the highest income.
+
+In general, there are data on geological identification, land area of the area, return, income, and average income from the community
+
+
+```{r}
+# create a new variable that is only taken 2 decimal places from the mean of the input
+meanrounded <- round(wealthy_zips@data$mean_income,2)
+
+#1. Make ploygon
+leaflet(wealthy_zips) %>%
+  addProviderTiles("CartoDB")  %>%
+  addPolygons(
+  weight = 5,
+  opacity =0.7,
+  dashArray="10",
+  color = "steelblue",
+  fillOpacity = 0.7,
+  label= ~meanrounded) # add meanrounded as a label
+```
+
